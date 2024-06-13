@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Fetch the token required for IMDSv2
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+
+# Fetch the public IP address of the instance using the token
+PUBLIC_IP=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -s http://169.254.169.254/latest/meta-data/public-ipv4)
+
+# Check if the public IP address is not empty
+if [ -n "$PUBLIC_IP" ]; then
+  echo "Public IP found: $PUBLIC_IP"
+  echo "Installing HAProxy..."
+  
+  # Update the package repository and install HAProxy
+  sudo yum update -y
+  sudo yum install haproxy -y
+  
+  # Enable and start the HAProxy service
+  #systemctl enable haproxy
+  #systemctl start haproxy
+  
+  echo "HAProxy installation completed."
+else
+  echo "No public IP assigned to this instance. Skipping HAProxy installation."
+fi
