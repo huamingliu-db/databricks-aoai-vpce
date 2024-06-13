@@ -1,0 +1,14 @@
+user_name = "abc@databricks.com"
+service_name = "Azure Open AI Endpoint Service"
+prefix = "aoai-vpce"
+cidr_block = "172.30.0.0/16"
+region = "us-east-1"
+eip_pool_size = 3 # Pool size of Elastic IPs
+eip_tag_key = "aoai_eip" # Tag key of your Elastic IPs
+asg_min_size = 1 # Auto Scaling group minimum size
+asg_max_size = 3 # Auto Scaling group maximum size, usually equal to the pool size of Elastic IPs
+asg_desired_size = 2 # Number of the proxy servers you want to have initially
+instance_type = "t2.medium" # You can pick your instance type of proxy server
+key_name = "aoai-use1-key" # Name of key pair of your EC2 proxy server
+allowed_principals = ["arn:aws:iam::565502421330:role/private-connectivity-role-us-east-1"] # Databricks provided ARN of the IAM role of Databricks serverless compute for your region
+aws_profile = "aws-aoai-vpce" # Your AWS CLI profile name
